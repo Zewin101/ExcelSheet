@@ -56,7 +56,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             TextFormField(

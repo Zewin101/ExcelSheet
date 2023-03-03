@@ -1,3 +1,7 @@
+
+
+import 'dart:convert';
+
 class UserField {
   static const String id = 'الرقم';
   static const String name = 'اسم العميل';
@@ -13,7 +17,7 @@ class User {
   String? cost;
   String? data;
 
-  User({ this.id,required  this.name, required this.cost, this.data});
+  User({ this.id,required  this.name, required this.cost, required this.data});
 
   User copy({
    int? id,
@@ -35,4 +39,27 @@ class User {
         UserField.data: data,
       };
 
+
+
+  User.fromJson(Map<String,dynamic>json):this(
+     id:jsonDecode(json[UserField.id]),
+      name:json[UserField.name],
+      cost:json[UserField.cost],
+      data:json[UserField.data],
+  );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

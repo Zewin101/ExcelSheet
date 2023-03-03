@@ -44,7 +44,14 @@ class UserSheetsApi {
       return spreadsheet.addWorksheet(title);
     }
   }
+static Future<User?>getById(int id)async{
+     if(userSheet==null)return null;
+    final json=await userSheet!.values.map.rowByKey(id,fromColumn: 1);
+    print(json);
+    return User.fromJson(json!);
 
+
+}
 
   static Future insert(List<Map<String,dynamic>>rowList)async{
     if(userSheet==null)return;

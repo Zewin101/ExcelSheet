@@ -14,61 +14,66 @@ class ScreenSheet extends StatefulWidget {
 }
 
 class _ScreenSheetState extends State<ScreenSheet> {
+User? user;
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUser();
+  }
+Future getUser()async{
+    final user =await UserSheetsApi.getById(2);
+    print(user!.name);
+    setState(() {
+      this.user=user;
+    });
+}
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        centerTitle: true,
+        backgroundColor: Colors.green,
+        shape: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.transparent),
+            borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(25),
+              bottomLeft: Radius.circular(25),
+            )),
+        title: Text("Excel Sheet"),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              UserFormWidget(
+                onSavedUser: (user) async{
+                final id=await UserSheetsApi.getRowCount()+1;
+                print(id);
+                final newUser=user.copy(id:id);
+                await UserSheetsApi.insert([newUser.toJson()]);
 
-        Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            elevation: 0.0,
-            centerTitle: true,
-            backgroundColor: Colors.green,
-            shape: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.transparent),
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(25),
-                  bottomLeft: Radius.circular(25),
-                )),
-            title: Text("Excel Sheet"),
-          ),
-          body: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  UserFormWidget(
-                    onSavedUser: (user) async{
-                    final id=await UserSheetsApi.getRowCount()+1;
-                    print(id);
-                    final newUser=user.copy(id:id);
-                    await UserSheetsApi.insert([newUser.toJson()]);
+                print(user.toJson());
 
-                    print(user.toJson());
-
-                  },),
-                  ElevatedButton(
-                    onPressed: () async{
-
-                      setState(() {
-
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(),
-                    child: const Text(
-                      "Save",
-                      style: TextStyle(fontSize: 25),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+              },),
+              // ElevatedButton(
+              //   onPressed: () async{
+              //     setState(() {
+              //     });
+              //   },
+              //   style: ElevatedButton.styleFrom(),
+              //   child: const Text(
+              //     "Save",
+              //     style: TextStyle(fontSize: 25),
+              //   ),
+              // ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }
