@@ -13,7 +13,20 @@ class User {
   String? cost;
   String? data;
 
-  User(this.id, this.name, this.cost, this.data);
+  User({ this.id,required  this.name, required this.cost, this.data});
+
+  User copy({
+   int? id,
+    String? name,
+    String? cost,
+    String? data,
+
+  })=>User(
+      data: data??this.data,
+      name: name??this.name,
+      id: id??this.id,
+      cost: cost??this.cost
+  );
 
   Map<String, dynamic> toJson() => {
         UserField.id: id,
@@ -21,4 +34,5 @@ class User {
         UserField.cost: cost,
         UserField.data: data,
       };
+
 }

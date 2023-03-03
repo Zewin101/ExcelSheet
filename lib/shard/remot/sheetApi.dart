@@ -17,7 +17,7 @@ class UserSheetsApi {
 }
   ''';
 
-  static final spreadsheetId = '1pLE7H7hHFGvLHWWjaOZ2IplM9-44zYuLt_nZ8v1TYrE';
+  static final spreadsheetId = '12_q-OYNIziVnWPiXrqoz5ptWuTpmeHL6jdnzZNElr-8';
 
   static final gsheets = GSheets(credenials);
 
@@ -50,6 +50,12 @@ class UserSheetsApi {
     if(userSheet==null)return;
     return await userSheet?.values.map.appendRows(rowList);
   }
+static Future<int>getRowCount()async{
+  if(userSheet==null)return 0;
+  final lastRow=await userSheet!.values.lastRow();
+  print(lastRow?.last);
+  return lastRow==null? 0: int.tryParse(lastRow.first)??0 ;
+}
 
 
 }
